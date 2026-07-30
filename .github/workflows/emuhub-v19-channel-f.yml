@@ -1,0 +1,30 @@
+name: EmuHub V19 Channel F Asset
+
+on:
+  push:
+    branches: [chatgpt-emuhub-v19-assets]
+    paths: ['.github/workflows/emuhub-v19-channel-f.yml']
+  pull_request:
+    branches: [master]
+    paths: ['.github/workflows/emuhub-v19-channel-f.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download authentic transparent Fairchild Channel F photograph
+        run: |
+          mkdir -p channel_f
+          curl -L --fail --retry 3 'https://upload.wikimedia.org/wikipedia/commons/3/34/Fairchild-Channel-F.png' -o channel_f/channelf.png
+          cat > channel_f/attribution.txt <<'EOF'
+          Fairchild-Channel-F.png; author Evan-Amos; CC BY-SA 3.0; source https://commons.wikimedia.org/wiki/File:Fairchild-Channel-F.png
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EmuHub-V19-Channel-F
+          path: channel_f
+          retention-days: 7
